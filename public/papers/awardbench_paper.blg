@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: awardbench_paper.aux
+The style file: plainnat.bst
+Illegal, another \bibstyle command---line 123 of file awardbench_paper.aux
+ : \bibstyle
+ :          {natbib}
+I'm skipping whatever remains of this command
+Illegal, another \bibdata command---line 124 of file awardbench_paper.aux
+ : \bibdata
+ :         {references}
+I'm skipping whatever remains of this command
+Database file #1: references.bib
+Warning--entry type for "pmi2024standards" isn't style-file defined
+--line 44 of file references.bib
+Warning--there's a number but no volume in engstrom2020government
+You've used 27 entries,
+            2773 wiz_defined-function locations,
+            729 strings with 9777 characters,
+and the built_in function-call counts, 11549 in all, are:
+= -- 1054
+> -- 644
+< -- 29
++ -- 226
+- -- 198
+* -- 833
+:= -- 1827
+add.period$ -- 83
+call.type$ -- 27
+change.case$ -- 151
+chr.to.int$ -- 26
+cite$ -- 55
+duplicate$ -- 553
+empty$ -- 893
+format.name$ -- 232
+if$ -- 2411
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 13
+newline$ -- 145
+num.names$ -- 108
+pop$ -- 276
+preamble$ -- 1
+purify$ -- 119
+quote$ -- 0
+skip$ -- 446
+stack$ -- 0
+substring$ -- 332
+swap$ -- 93
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 292
+warning$ -- 1
+while$ -- 103
+width$ -- 0
+write$ -- 365
+(There were 2 error messages)

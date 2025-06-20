@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AwardBench - Government Contracting AI Performance Benchmark</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #101010;
+            --bg-component: #1C1C1C;
+            --text-primary: #EAEAEA;
+            --text-secondary: #999999;
+            --accent-green: #00A67E;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --hover-bg: rgba(255, 255, 255, 0.04);
+            --chart-grid: rgba(255, 255, 255, 0.08);
+            --tab-inactive: #666666;
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #FFFFFF;
+            --bg-component: #F9FAFB;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --accent-green: #00A67E;
+            --border-subtle: rgba(0, 0, 0, 0.08);
+            --hover-bg: rgba(0, 0, 0, 0.02);
+            --chart-grid: rgba(0, 0, 0, 0.08);
+            --tab-inactive: #9CA3AF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: var(--bg-component);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-green);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .theme-toggle svg.active {
+            color: var(--accent-green);
+        }
+
+        /* Header */
+        header {
+            padding: 96px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Hero Image */
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            transition: opacity 0.3s ease;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Download Section */
+        .download-section {
+            margin: 64px 0;
+            text-align: center;
+        }
+
+        .download-links {
+            display: inline-flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--bg-component);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .download-link:hover {
+            background: var(--hover-bg);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            transform: translateY(-1px);
+        }
+
+        .download-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Tabs Component */
+        .tabs-section {
+            margin: 128px 0;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .tabs-container {
+            background: var(--bg-component);
+            border-radius: 12px;
+            padding: 48px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 48px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 2px;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: var(--tab-inactive);
+            font-size: 16px;
+            font-weight: 500;
+            padding: 12px 0;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-button.active {
+            color: var(--accent-green);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Metric Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 96px 0;
+        }
+
+        .metric-card {
+            background: var(--bg-component);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.2s ease;
+        }
+
+        .metric-card:hover {
+            background: var(--hover-bg);
+            transform: translateY(-2px);
+            border-color: rgba(0, 166, 126, 0.3);
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+
+        .metric-model {
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        /* Metric Discussion Section */
+        .metric-discussion {
+            margin: 128px 0;
+        }
+
+        .metric-discussion-grid {
+            display: grid;
+            gap: 48px;
+        }
+
+        .metric-discussion-item {
+            background: var(--bg-component);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-discussion-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-green);
+        }
+
+        .metric-discussion-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .metric-score-badge {
+            background: rgba(0, 166, 126, 0.1);
+            color: var(--accent-green);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .metric-discussion-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .metric-discussion-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .metric-discussion-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .metric-discussion-content ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .metric-discussion-content li {
+            margin-bottom: 8px;
+        }
+
+        .metric-example {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 14px;
+        }
+
+        /* Leaderboard */
+        .leaderboard-section {
+            margin: 128px 0;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            background: var(--bg-component);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .leaderboard-table th {
+            text-align: left;
+            padding: 24px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            background: var(--bg-component);
+        }
+
+        .leaderboard-table td {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .leaderboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .leaderboard-table tr:hover td {
+            background: var(--hover-bg);
+        }
+
+        .rank {
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .model-name {
+            font-weight: 500;
+        }
+
+        .score {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+        }
+
+        .tier {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(0, 166, 126, 0.1);
+            color: var(--accent-green);
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* Charts */
+        .charts-section {
+            margin: 128px 0;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .chart-container {
+            background: var(--bg-component);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 32px;
+            height: 400px;
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--bg-component);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 24px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 192px;
+            padding: 48px 0;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-nav {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .download-links {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .download-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .theme-switcher {
+                top: 12px;
+                right: 12px;
+            }
+
+            .metric-discussion-item {
+                padding: 32px 24px;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-subtle);
+            border-radius: 50%;
+            border-top-color: var(--accent-green);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="hero-image">
+                <img id="heroImage" src="hero_image_dark.png" alt="AwardBench Hero">
+            </div>
+            <h1>AwardBench</h1>
+            <p class="subtitle">The Definitive GovCon AI Performance Standard</p>
+        </header>
+
+        <!-- Download Section -->
+        <section class="download-section">
+            <p style="color: var(--text-secondary); margin-bottom: 8px;">Download the full paper</p>
+            <div class="download-links">
+                <a href="#" class="download-link" id="downloadTex">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"></path>
+                    </svg>
+                    LaTeX Source
+                </a>
+                <a href="#" class="download-link" id="downloadPdf">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"></path>
+                    </svg>
+                    PDF Paper
+                </a>
+                <a href="#" class="download-link" id="downloadBundle">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"></path>
+                    </svg>
+                    Full Bundle
+                </a>
+            </div>
+        </section>
+
+        <!-- Examples Section with Tabs -->
+        <section class="tabs-section">
+            <h2 class="section-title">Examples</h2>
+            <div class="tabs-container">
+                <div class="tab-nav">
+                    <button class="tab-button active" data-tab="govcon">GovCon Intelligence</button>
+                    <button class="tab-button" data-tab="proposal">Proposal Generation</button>
+                    <button class="tab-button" data-tab="workflow">Workflow Automation</button>
+                    <button class="tab-button" data-tab="retrieval">Retrieval Accuracy</button>
+                </div>
+                
+                <div class="tab-content active" id="govcon">
+                    <h3 style="font-size: 20px; margin-bottom: 16px;">FAR/DFARS Compliance Testing</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">We evaluate AI systems on their ability to interpret complex regulatory requirements.</p>
+                    <div class="code-block">
+                        <code>
+Input: "What are the micropurchase thresholds for DoD contractors?"<br><br>
+Expected: Accurate thresholds with citations to FAR 2.101 and DFARS 213.301<br>
+Awarded AI: ✓ Correct with full regulatory context<br>
+Generic LLM: ✗ Outdated or incorrect thresholds
+                        </code>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="proposal">
+                    <h3 style="font-size: 20px; margin-bottom: 16px;">Technical Proposal Writing</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Testing the quality of AI-generated proposal content.</p>
+                    <div class="code-block">
+                        <code>
+Task: Generate executive summary for SEWP VI submission<br><br>
+Evaluation Criteria:<br>
+- Win theme alignment<br>
+- Technical accuracy<br>
+- Compliance matrix coverage<br>
+- Persuasiveness score
+                        </code>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="workflow">
+                    <h3 style="font-size: 20px; margin-bottom: 16px;">End-to-End Process Automation</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Measuring complete workflow automation capabilities.</p>
+                    <div class="code-block">
+                        <code>
+Workflow: SAM.gov opportunity to submission-ready proposal<br><br>
+Metrics:<br>
+- Time to completion: 4 hours vs 40 hours manual<br>
+- Automation rate: 87% fully automated<br>
+- Human touchpoints: 3 review gates only
+                        </code>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="retrieval">
+                    <h3 style="font-size: 20px; margin-bottom: 16px;">Document Retrieval & Context</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Testing precision in finding and using relevant information.</p>
+                    <div class="code-block">
+                        <code>
+Query: "Past performance on similar DISA contracts"<br><br>
+Evaluation:<br>
+- Retrieval precision: 0.95<br>
+- Context relevance: 0.93<br>
+- Source attribution: 100% accurate<br>
+- Multi-doc reasoning: ✓ Synthesizes across sources
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Metrics -->
+        <section>
+            <h2 class="section-title">Performance Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <p class="metric-label">Overall Leader</p>
+                    <p class="metric-value" id="overallScore">94.7%</p>
+                    <p class="metric-model" id="overallLeader">Awarded AI Platform</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Best Compliance</p>
+                    <p class="metric-value" id="complianceScore">98.0%</p>
+                    <p class="metric-model" id="bestCompliance">Awarded AI Platform</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Best Proposal Gen</p>
+                    <p class="metric-value" id="proposalScore">92.0%</p>
+                    <p class="metric-model" id="bestProposal">Awarded AI Platform</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Most Efficient</p>
+                    <p class="metric-value" id="efficiencyScore">96.0%</p>
+                    <p class="metric-model" id="mostEfficient">Awarded AI Platform</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">Compliance Matrix</p>
+                    <p class="metric-value" id="complianceMatrixScore">97.0%</p>
+                    <p class="metric-model" id="bestComplianceMatrix">Awarded AI Platform</p>
+                </div>
+                <div class="metric-card">
+                    <p class="metric-label">RACI Matrix</p>
+                    <p class="metric-value" id="raciMatrixScore">95.0%</p>
+                    <p class="metric-model" id="bestRaciMatrix">Awarded AI Platform</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metric Discussion Section -->
+        <section class="metric-discussion">
+            <h2 class="section-title">Understanding the Metrics</h2>
+            <div class="metric-discussion-grid">
+                <!-- GovCon Intelligence Accuracy -->
+                <div class="metric-discussion-item">
+                    <h3 class="metric-discussion-title">
+                        GovCon Intelligence Accuracy (GIA)
+                        <span class="metric-score-badge">98.0%</span>
+                    </h3>
+                    <p class="metric-discussion-description">
+                        Measures the AI's ability to correctly interpret and apply federal acquisition regulations
+                    </p>
+                    <div class="metric-discussion-content">
+                        <p>The GIA metric represents the cornerstone of any GovCon AI system. With over 2,000 pages of FAR/DFARS regulations and constant updates, accurate interpretation is critical for compliance and competitive advantage.</p>
+                        
+                        <h4>What We Test</h4>
+                        <ul>
+                            <li>Interpretation of complex regulatory clauses across FAR Parts 1-53</li>
+                            <li>Understanding of agency-specific supplements (DFARS, GSAM, etc.)</li>
+                            <li>Recognition of regulatory updates and their effective dates</li>
+                            <li>Cross-reference capabilities between related clauses</li>
+                        </ul>
+
+                        <div class="metric-example">
+                            <strong>Example Test Case:</strong><br>
+                            Q: "Can a small business prime contractor subcontract more than 50% of the work to a large business on a total small business set-aside?"<br><br>
+                            A: No, under FAR 52.219-14, the prime must perform at least 50% with its own employees.
+                        </div>
+
+                        <h4>Why It Matters</h4>
+                        <p>A single compliance error can result in bid protests, contract termination, or debarment. Our testing shows that generic LLMs achieve only 65% accuracy on GovCon regulatory questions, while specialized systems like Awarded AI achieve 98% accuracy through dedicated training on federal acquisition regulations.</p>
+                    </div>
+                </div>
+
+                <!-- Proposal Generation Quality -->
+                <div class="metric-discussion-item">
+                    <h3 class="metric-discussion-title">
+                        Proposal Generation Quality (PGQ)
+                        <span class="metric-score-badge">92.0%</span>
+                    </h3>
+                    <p class="metric-discussion-description">
+                        Evaluates the quality, compliance, and persuasiveness of AI-generated proposal content
+                    </p>
+                    <div class="metric-discussion-content">
+                        <p>PGQ measures an AI's ability to generate winning proposal content that aligns with evaluation criteria, incorporates win themes, and maintains technical accuracy while being persuasive.</p>
+                        
+                        <h4>Evaluation Dimensions</h4>
+                        <ul>
+                            <li><strong>Compliance:</strong> Addresses all requirements in Sections L & M</li>
+                            <li><strong>Win Themes:</strong> Consistent messaging aligned with customer priorities</li>
+                            <li><strong>Technical Accuracy:</strong> Correct solution descriptions and approaches</li>
+                            <li><strong>Persuasiveness:</strong> Clear value propositions and differentiators</li>
+                            <li><strong>Readability:</strong> Appropriate reading level and structure</li>
+                        </ul>
+
+                        <div class="metric-example">
+                            <strong>Test Scenario:</strong><br>
+                            Generate an executive summary for a $50M IT modernization contract emphasizing agile delivery and cybersecurity.<br><br>
+                            <strong>Evaluation:</strong> Human experts score for compliance (M.1-M.5), theme consistency, and win probability.
+                        </div>
+
+                        <h4>Impact on Win Rates</h4>
+                        <p>Organizations using AI with high PGQ scores report 40% reduction in proposal development time and 25% increase in win rates. The ability to generate compliant, persuasive content at scale transforms proposal operations.</p>
+                    </div>
+                </div>
+
+                <!-- Workflow Automation Effectiveness -->
+                <div class="metric-discussion-item">
+                    <h3 class="metric-discussion-title">
+                        Workflow Automation Effectiveness (WAE)
+                        <span class="metric-score-badge">94.0%</span>
+                    </h3>
+                    <p class="metric-discussion-description">
+                        Assesses end-to-end process automation and time-to-value in GovCon workflows
+                    </p>
+                    <div class="metric-discussion-content">
+                        <p>WAE measures how effectively an AI system can automate complex, multi-step GovCon processes from opportunity identification through proposal submission.</p>
+                        
+                        <h4>Key Workflow Components</h4>
+                        <ul>
+                            <li><strong>Opportunity Matching:</strong> Automated qualification against capabilities</li>
+                            <li><strong>Bid/No-Bid Analysis:</strong> Data-driven decision recommendations</li>
+                            <li><strong>Compliance Matrix Generation:</strong> Automatic requirement parsing</li>
+                            <li><strong>Team Assembly:</strong> Optimal resource allocation</li>
+                            <li><strong>Document Generation:</strong> Parallel content creation</li>
+                        </ul>
+
+                        <div class="metric-example">
+                            <strong>Benchmark Workflow:</strong><br>
+                            SAM.gov RFP Release → Compliance Matrix → Outline → First Draft<br>
+                            Manual Time: 40 hours<br>
+                            Automated Time: 4 hours<br>
+                            Human Touchpoints: 3 (review gates only)
+                        </div>
+
+                        <h4>ROI Metrics</h4>
+                        <p>High WAE scores correlate with 10x productivity gains. Teams report ability to pursue 300% more opportunities with the same resources, fundamentally changing competitive dynamics in the GovCon market.</p>
+                    </div>
+                </div>
+
+                <!-- Retrieval and Context Accuracy -->
+                <div class="metric-discussion-item">
+                    <h3 class="metric-discussion-title">
+                        Retrieval and Context Accuracy (RCA)
+                        <span class="metric-score-badge">95.0%</span>
+                    </h3>
+                    <p class="metric-discussion-description">
+                        Measures precision in finding and synthesizing information from vast document repositories
+                    </p>
+                    <div class="metric-discussion-content">
+                        <p>RCA evaluates an AI's ability to accurately retrieve relevant information from large corpuses of past performance, technical documentation, and pricing data while maintaining context and attribution.</p>
+                        
+                        <h4>Testing Methodology</h4>
+                        <ul>
+                            <li><strong>Precision:</strong> Percentage of retrieved documents that are relevant</li>
+                            <li><strong>Recall:</strong> Percentage of relevant documents that are retrieved</li>
+                            <li><strong>Context Window:</strong> Ability to synthesize across multiple sources</li>
+                            <li><strong>Attribution:</strong> Accurate source citation and traceability</li>
+                            <li><strong>Temporal Awareness:</strong> Using most recent/applicable versions</li>
+                        </ul>
+
+                        <div class="metric-example">
+                            <strong>Complex Query Test:</strong><br>
+                            "Find all past performance examples where we integrated ServiceNow with DoD networks, showing security clearance requirements and implementation timelines"<br><br>
+                            <strong>Expected:</strong> 5 relevant CPARs with specific sections highlighted
+                        </div>
+
+                        <h4>Business Impact</h4>
+                        <p>High RCA scores enable "institutional memory at scale" - making decades of corporate knowledge instantly accessible. This transforms how teams leverage past performance and technical solutions, reducing redundant work by 60%.</p>
+                    </div>
+                </div>
+
+                <!-- Compliance Matrix Generation -->
+                <div class="metric-discussion-item">
+                    <h3 class="metric-discussion-title">
+                        Compliance Matrix Generation (CMG)
+                        <span class="metric-score-badge">97.0%</span>
+                    </h3>
+                    <p class="metric-discussion-description">
+                        Measures accuracy in parsing Section L/M requirements and generating cross-reference matrices
+                    </p>
+                    <div class="metric-discussion-content">
+                        <p>CMG evaluates an AI's ability to automatically parse complex solicitation requirements from Sections L (Instructions to Offerors) and M (Evaluation Criteria), creating comprehensive compliance matrices that ensure every requirement is addressed in the proposal.</p>
+                        
+                        <h4>Testing Methodology</h4>
+                        <ul>
+                            <li><strong>Requirement Extraction:</strong> Identifying 100% of SHALL/WILL statements</li>
+                            <li><strong>Section Mapping:</strong> Accurate cross-referencing between L & M sections</li>
+                            <li><strong>Traceability:</strong> Maintaining requirement genealogy through amendments</li>
+                            <li><strong>Completeness:</strong> Capturing implied requirements and subfactors</li>
+                            <li><strong>Format Compliance:</strong> Proper structuring per agency preferences</li>
+                        </ul>
+
+                        <div class="metric-example">
+                            <strong>Complex Solicitation Test:</strong><br>
+                            FA8773-25-R-0001 with 147 requirements across L.5.1-L.5.7 and M.2-M.7<br><br>
+                            <strong>Expected Output:</strong><br>
+- L.5.1.2.3: "Contractor SHALL provide..." → Volume II, Section 3.2.1<br>
+- M.2.1: Technical Approach (40%) → Addressed in Vol II, Sections 3.1-3.5<br>
+- Amendment 0002 changes: Highlighted with version tracking
+                        </div>
+
+                        <h4>Latest FAR/DFAR Compliance (June 2025)</h4>
+                        <p>With FAC 2025-03 changes to procurement procedures and the recent Executive Order on Merit-Based Opportunity (Jan 2025), compliance matrices must now track additional diversity and small business requirements per FAR 19.7 updates.</p>
+
+                        <h4>Business Impact</h4>
+                        <p>Automated compliance matrix generation reduces proposal prep time by 40% and virtually eliminates non-compliant submissions. Teams report catching 3x more implied requirements, significantly improving technical scores.</p>
+                    </div>
+                </div>
+
+                <!-- RACI Matrix Creation -->
+                <div class="metric-discussion-item">
+                    <h3 class="metric-discussion-title">
+                        RACI Matrix Creation (RMC)
+                        <span class="metric-score-badge">95.0%</span>
+                    </h3>
+                    <p class="metric-discussion-description">
+                        Measures effectiveness in generating responsibility assignment matrices for complex projects
+                    </p>
+                    <div class="metric-discussion-content">
+                        <p>RMC evaluates an AI's ability to analyze project requirements, team structures, and contractual obligations to automatically generate RACI (Responsible, Accountable, Consulted, Informed) matrices that clearly define roles and responsibilities throughout the contract lifecycle.</p>
+                        
+                        <h4>Testing Methodology</h4>
+                        <ul>
+                            <li><strong>Role Identification:</strong> Extracting all stakeholder roles from RFP/PWS</li>
+                            <li><strong>Task Decomposition:</strong> Breaking down SOW into assignable activities</li>
+                            <li><strong>Accountability Mapping:</strong> Single accountable party per deliverable</li>
+                            <li><strong>Consultation Requirements:</strong> Identifying mandatory review cycles</li>
+                            <li><strong>Scalability:</strong> Handling projects from 10 to 1000+ tasks</li>
+                        </ul>
+
+                        <div class="metric-example">
+                            <strong>Complex Project Test:</strong><br>
+                            $500M DISA Enterprise IT Services contract with 85 CLINs<br><br>
+                            <strong>Generated RACI Extract:</strong><br>
+- CLIN 0001: Network Operations<br>
+  R: Network Operations Manager | A: Program Manager<br>
+  C: DISA COR, Security Lead | I: PMO, Finance<br>
+- Deliverable: Monthly SLA Report<br>
+  R: Service Delivery Manager | A: Deputy PM<br>
+  C: Quality Lead, Customer | I: All Task Leads
+                        </div>
+
+                        <h4>Integration with Contract Management</h4>
+                        <p>Modern RACI matrices must align with FAR 42.302 COR responsibilities and integrate with contractor performance assessment reporting systems (CPARS). AI-generated matrices now include automated QASP alignment and performance metric assignments.</p>
+
+                        <h4>Business Impact</h4>
+                        <p>Automated RACI generation reduces project kickoff time by 60% and prevents 90% of responsibility-related disputes. Teams report clearer accountability chains and 50% faster decision-making on complex programs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard -->
+        <section class="leaderboard-section">
+            <h2 class="section-title">Leaderboard</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Model</th>
+                        <th>Overall Score</th>
+                        <th>Performance Tier</th>
+                        <th>Strengths</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-section">
+            <h2 class="section-title">Performance Analysis</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3 class="chart-title">Multi-Dimensional Performance</h3>
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Category Breakdown</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2025 Procurement Sciences Inc. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://awarded.ai">awarded.ai</a>
+                <a href="#" id="technicalPaper">Technical Paper</a>
+                <a href="#" id="apiAccess">API Access</a>
+                <a href="mailto:research@awarded.ai">Contact</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

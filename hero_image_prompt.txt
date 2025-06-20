@@ -1,0 +1,43 @@
+HERO IMAGE CONCEPT FOR AWARDBENCH
+
+Design Brief:
+Create a sophisticated, minimalist hero image for AwardBench - the definitive government contracting AI performance benchmark. The image should embody the Apple/OpenAI design aesthetic with clean lines, generous whitespace, and subtle depth.
+
+Visual Elements:
+1. Abstract visualization of AI neural networks or data flows
+2. Subtle geometric patterns representing government/federal architecture
+3. Gradient mesh in shades of green (#00A67E) transitioning to dark backgrounds
+4. Clean, modern typography integration if needed
+5. Minimalist representation of performance metrics or charts
+
+Style Guidelines:
+- Ultra-minimalist, similar to Apple's product pages
+- Use of negative space and subtle gradients
+- Monochromatic with accent green (#00A67E)
+- Soft shadows and depth without being heavy
+- Abstract rather than literal representations
+- Premium, professional feel
+- Dark mode primary with light mode consideration
+
+Dimensions:
+- 2880x1200px for retina displays
+- 16:9 aspect ratio
+- Optimized for web performance
+
+Color Palette:
+- Primary: #00A67E (Accent Green)
+- Background Dark: #101010
+- Background Component: #1C1C1C
+- Text Primary: #EAEAEA
+- Text Secondary: #999999
+- Border Subtle: rgba(255, 255, 255, 0.08)
+
+Mood/Feeling:
+- Cutting-edge technology
+- Government/federal authority
+- Trust and reliability
+- Performance and precision
+- Innovation in GovCon space
+
+Prompt for AI Image Generation:
+"Create a minimalist hero image for a government AI benchmarking platform. Abstract visualization of neural networks and data flows in dark mode (#101010 background) with subtle green accents (#00A67E). Ultra-clean Apple-style design with geometric patterns suggesting federal architecture. Gradient mesh effects, generous negative space, soft depth. No text, purely abstract and sophisticated. 2880x1200px, 16:9 ratio. Premium tech aesthetic meets government authority."

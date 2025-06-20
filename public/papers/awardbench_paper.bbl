@@ -1,0 +1,186 @@
+\begin{thebibliography}{27}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Accenture Federal Services}(2024)]{accenture2024}
+{Accenture Federal Services}.
+\newblock Federal procurement transformation through ai: A quantitative
+  analysis.
+\newblock Technical report, Accenture, Arlington, VA, 2024.
+
+\bibitem[Chalkidis et~al.(2022)Chalkidis, Jana, Hartung, Bommarito,
+  Androutsopoulos, Katz, and Aletras]{chalkidis2022fairlex}
+Ilias Chalkidis, Abhik Jana, Dirk Hartung, Michael Bommarito, Ion
+  Androutsopoulos, Daniel Katz, and Nikolaos Aletras.
+\newblock Fairlex: A multilingual benchmark for evaluating fairness in legal
+  text processing.
+\newblock \emph{Proceedings of the 60th Annual Meeting of the Association for
+  Computational Linguistics}, pages 4389--4406, 2022.
+
+\bibitem[Coglianese and Lai(2024)]{coglianese2024administrative}
+Cary Coglianese and Alicia Lai.
+\newblock \emph{Administrative Law in the Age of Artificial Intelligence}.
+\newblock University of Pennsylvania Press, Philadelphia, PA, 2024.
+
+\bibitem[{Deloitte Consulting}(2024)]{deloitte2024ai}
+{Deloitte Consulting}.
+\newblock Ai in government contracting: Efficiency gains and implementation
+  strategies.
+\newblock Technical report, Deloitte, New York, NY, 2024.
+
+\bibitem[{Deltek Inc.}(2024)]{deltek2024}
+{Deltek Inc.}
+\newblock Clarity government contracting industry study.
+\newblock Technical report, Deltek, Herndon, VA, 2024.
+
+\bibitem[{Department of Defense}(2025)]{dod2025guidelines}
+{Department of Defense}.
+\newblock Defense acquisition guidebook: Responsibility assignment matrix
+  requirements for complex programs.
+\newblock Technical Report DAU-PAM-25-01, Defense Acquisition University, Fort
+  Belvoir, VA, February 2025.
+
+\bibitem[Engstrom et~al.(2020)Engstrom, Ho, Sharkey, and
+  Cuéllar]{engstrom2020government}
+David~Freeman Engstrom, Daniel~E. Ho, Catherine~M. Sharkey, and
+  Mariano-Florentino Cuéllar.
+\newblock Government by algorithm: Artificial intelligence in federal
+  administrative agencies.
+\newblock \emph{NYU School of Law, Public Law Research Paper}, \penalty0
+  (20-54), 2020.
+
+\bibitem[{Gartner Research}(2024)]{gartner2024gov}
+{Gartner Research}.
+\newblock Government ai adoption survey: Procurement leaders' perspectives.
+\newblock Technical report, Gartner Inc., February 2024.
+
+\bibitem[{General Services Administration}(2024)]{far2024}
+{General Services Administration}.
+\newblock \emph{Federal Acquisition Regulation}.
+\newblock GSA, DoD, NASA, 2024.
+\newblock Title 48 CFR Chapter 1.
+
+\bibitem[{General Services Administration}(2025)]{far2025}
+{General Services Administration}.
+\newblock \emph{Federal Acquisition Regulation Update: Federal Acquisition
+  Circular (FAC) 2025-03}.
+\newblock GSA, DoD, NASA, 2025.
+\newblock Title 48 CFR Chapter 1, effective January 2025.
+
+\bibitem[Hendler and Mulvehill(2023)]{hendler2023semantic}
+James Hendler and Alice~M. Mulvehill.
+\newblock Semantic search for procurement: Matching queries to complex
+  government documents.
+\newblock \emph{AI Magazine}, 44\penalty0 (2):\penalty0 152--165, 2023.
+
+\bibitem[Hendrycks et~al.(2021)Hendrycks, Burns, Basart, Zou, Mazeika, Song,
+  and Steinhardt]{hendrycks2021mmlu}
+Dan Hendrycks, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn
+  Song, and Jacob Steinhardt.
+\newblock Measuring massive multitask language understanding.
+\newblock \emph{Proceedings of the International Conference on Learning
+  Representations}, 2021.
+
+\bibitem[Jin et~al.(2021)Jin, Pan, Oufattole, Weng, Fang, and
+  Szolovits]{jin2021disease}
+Di~Jin, Eileen Pan, Nassim Oufattole, Wei-Hung Weng, Hanyi Fang, and Peter
+  Szolovits.
+\newblock Disease knowledge distillation for medical dialogue generation.
+\newblock \emph{Proceedings of the AAAI Conference on Artificial Intelligence},
+  35\penalty0 (14):\penalty0 13182--13190, 2021.
+
+\bibitem[Jin et~al.(2019)Jin, Dhingra, Liu, Cohen, and Lu]{jin2019pubmedqa}
+Qiao Jin, Bhuwan Dhingra, Zhengping Liu, William~W. Cohen, and Xinghua Lu.
+\newblock Pubmedqa: A dataset for biomedical research question answering.
+\newblock In \emph{Proceedings of the 2019 Conference on Empirical Methods in
+  Natural Language Processing}, pages 2567--2577, 2019.
+
+\bibitem[Katz et~al.(2024)Katz, Hartung, Gerlach, Jana, and
+  Bommarito~II]{katz2024lexglue}
+Daniel~Martin Katz, Dirk Hartung, Lauritz Gerlach, Abhik Jana, and Michael~J.
+  Bommarito~II.
+\newblock Lexglue: A benchmark dataset for legal language understanding in
+  english.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association
+  for Computational Linguistics}, pages 1723--1736, 2024.
+
+\bibitem[{MarketsandMarkets Research}(2024)]{marketsandmarkets2024}
+{MarketsandMarkets Research}.
+\newblock Healthcare ai market - global forecast to 2029.
+\newblock Technical Report MD 7834, MarketsandMarkets, 2024.
+
+\bibitem[{Office of Management and Budget}(2024)]{omb2024}
+{Office of Management and Budget}.
+\newblock Memorandum m-25-21: Advancing the responsible acquisition and use of
+  artificial intelligence in the federal government.
+\newblock Technical report, Executive Office of the President, Washington, DC,
+  2024.
+
+\bibitem[{Project Management Institute}(2024)]{pmi2024standards}
+{Project Management Institute}.
+\newblock A guide to the project management body of knowledge (pmbok guide),
+  2024.
+\newblock Chapter 13: Project Resource Management.
+
+\bibitem[Reis et~al.(2024)Reis, Brito, and Figueiredo]{reis2024procurement}
+João Reis, Miguel Brito, and Nuno Figueiredo.
+\newblock Machine learning for public procurement spend classification.
+\newblock In \emph{Proceedings of the 2024 International Conference on Digital
+  Government Research}, pages 234--245, 2024.
+
+\bibitem[Srivastava et~al.(2023)]{srivastava2023beyond}
+Aarohi Srivastava et~al.
+\newblock Beyond the imitation game: Quantifying and extrapolating the
+  capabilities of language models.
+\newblock \emph{Transactions on Machine Learning Research}, 2023.
+
+\bibitem[{Thomson Reuters
+  Institute}(2024{\natexlab{a}})]{thomson2024compliance}
+{Thomson Reuters Institute}.
+\newblock The true cost of compliance in government contracting.
+\newblock Technical report, Thomson Reuters, March 2024{\natexlab{a}}.
+
+\bibitem[{Thomson Reuters Institute}(2024{\natexlab{b}})]{thomson2024legal}
+{Thomson Reuters Institute}.
+\newblock Legal ai benchmarking study: Hallucination rates and accuracy
+  metrics.
+\newblock Technical report, Thomson Reuters, May 2024{\natexlab{b}}.
+
+\bibitem[{U.S. Food and Drug Administration}(2024)]{fda2024ai}
+{U.S. Food and Drug Administration}.
+\newblock Artificial intelligence/machine learning (ai/ml)-based medical
+  devices.
+\newblock Technical report, FDA, Silver Spring, MD, 2024.
+
+\bibitem[{U.S. Government Accountability Office}(2024)]{gao2024}
+{U.S. Government Accountability Office}.
+\newblock Federal contracting: Assessment of government-wide trends and
+  opportunities.
+\newblock Technical Report GAO-24-106234, GAO, Washington, DC, 2024.
+
+\bibitem[{U.S. Government Accountability Office}(2025)]{gao2025procurement}
+{U.S. Government Accountability Office}.
+\newblock Section l/m requirements compliance: Analysis of contractor proposal
+  management practices.
+\newblock Technical Report GAO-25-203456, GAO, Washington, DC, March 2025.
+
+\bibitem[Wang et~al.(2019)Wang, Singh, Michael, Hill, Levy, and
+  Bowman]{wang2019glue}
+Alex Wang, Amanpreet Singh, Julian Michael, Felix Hill, Omer Levy, and
+  Samuel~R. Bowman.
+\newblock Glue: A multi-task benchmark and analysis platform for natural
+  language understanding.
+\newblock In \emph{Proceedings of the 2018 EMNLP Workshop BlackboxNLP}, pages
+  353--355, 2019.
+
+\bibitem[Wang and Zhang(2019)]{wang2019automated}
+Jiansong Wang and Jianping Zhang.
+\newblock Automated extraction of contract elements from construction
+  specifications using natural language processing.
+\newblock In \emph{Proceedings of the 36th International Symposium on
+  Automation and Robotics in Construction}, pages 876--883, 2019.
+
+\end{thebibliography}
