@@ -50,7 +50,7 @@ class LatexPaperGenerator:
     citecolor=accentgreen
 }}
 
-\\title{{\\textbf{{AwardBench: A Comprehensive Benchmark for Government Contracting AI Systems}}}}
+\\title{{\\textbf{{AwardBench: A Preliminary Evaluation Framework for Government Contracting AI Systems}}}}
 \\author{{
     Awarded AI Research Team\\\\
     Procurement Sciences Inc.\\\\
@@ -58,12 +58,21 @@ class LatexPaperGenerator:
 }}
 \\date{{\\today}}
 
+% Conflict of Interest Box
+\\usepackage{{fancybox}}
+\\usepackage{{mdframed}}
+
 \\begin{{document}}
 
 \\maketitle
 
+% Conflict of Interest Warning Box
+\\begin{{mdframed}}[backgroundcolor=red!10,linecolor=red,linewidth=2pt]
+\\textbf{{CONFLICT OF INTEREST DISCLOSURE:}} This evaluation framework is developed by Procurement Sciences Inc., which also develops the Awarded AI Platform evaluated in this benchmark. This represents a significant conflict of interest. Independent validation by third parties is required before using these results for any business or procurement decisions. Results should be considered preliminary and potentially biased.
+\\end{{mdframed}}
+
 \\begin{{abstract}}
-We present AwardBench, a comprehensive evaluation framework for AI systems in the government contracting (GovCon) domain. Our benchmark assesses models across four critical dimensions: GovCon Intelligence Accuracy (GIA), Proposal Generation Quality (PGQ), Workflow Automation Effectiveness (WAE), and Retrieval and Context Accuracy (RCA). Through rigorous testing on over 10,000 real-world scenarios, we demonstrate that specialized domain-trained models significantly outperform general-purpose language models in GovCon-specific tasks. Our results show that the Awarded AI Platform achieves a {self.data['leaderboard'][0]['overall_score']:.1%} overall score, establishing a new state-of-the-art in automated government contracting assistance.
+We present AwardBench, a preliminary evaluation framework for AI systems in the government contracting (GovCon) domain. Our framework proposes to assess models across four critical dimensions: GovCon Intelligence Accuracy (GIA), Proposal Generation Quality (PGQ), Workflow Automation Effectiveness (WAE), and Retrieval and Context Accuracy (RCA). This work represents an initial attempt at domain-specific evaluation, but requires significant methodological development, independent validation, and peer review before conclusions can be drawn. The framework is currently in development with several known limitations requiring further research.
 \\end{{abstract}}
 
 \\section{{Introduction}}
@@ -88,6 +97,9 @@ Previous benchmarks such as MMLU \\cite{{hendrycks2021measuring}}, SuperGLUE \\c
 
 \\subsection{{Domain-Specific Benchmarks}}
 Recent work has highlighted the importance of domain-specific evaluation. Medical benchmarks like MedQA \\cite{{jin2021disease}} and legal benchmarks such as LegalBench \\cite{{guha2023legalbench}} demonstrate that specialized evaluation is crucial for high-stakes applications. Our work extends this approach to the government contracting domain.
+
+\\subsection{{Benchmark Quality and Best Practices}}
+Recent research has raised important concerns about benchmark quality and evaluation practices. Reuel et al. \\cite{{reuel2024betterbench}} assessed 24 AI benchmarks against 46 best practices and found significant quality differences, with many benchmarks suffering from issues like inadequate statistical significance reporting and poor reproducibility. Similarly, Eriksson et al. \\cite{{eriksson2025trust}} conducted an interdisciplinary review highlighting systemic flaws in benchmarking practices, including misaligned incentives, construct validity issues, and problems with gaming of benchmark results. These studies underscore the critical importance of methodological rigor in benchmark development—concerns that directly inform our approach to AwardBench.
 
 \\section{{Methodology}}
 
@@ -190,19 +202,41 @@ Our results demonstrate several key findings:
 
 \\section{{Limitations and Future Work}}
 
-While AwardBench provides comprehensive coverage of GovCon AI capabilities, several limitations should be noted:
+This work has significant limitations that must be acknowledged:
 
+\\subsection{{Methodological Limitations}}
+\\begin{{itemize}}
+\\item \\textbf{{Conflict of Interest}}: Framework developed by organization with competing product
+\\item \\textbf{{Dataset Validation}}: No independent verification of dataset quality or bias
+\\item \\textbf{{Metric Justification}}: Mathematical rigor and statistical validation incomplete
+\\item \\textbf{{Reproducibility}}: Full methodology not documented for independent replication
+\\item \\textbf{{Overfitting Risk}}: No verification that test data is isolated from training data
+\\end{{itemize}}
+
+\\subsection{{Scope Limitations}}
 \\begin{{itemize}}
 \\item Focus on U.S. federal contracting regulations
 \\item Limited coverage of state and local procurement
 \\item Emphasis on text-based tasks over multimodal capabilities
+\\item No adversarial robustness testing
 \\end{{itemize}}
 
-Future versions will expand to include international procurement systems and multimodal document understanding.
+\\subsection{{Required Future Work}}
+\\begin{{itemize}}
+\\item Independent third-party validation of all results
+\\item Rigorous statistical analysis with confidence intervals
+\\item Inter-annotator agreement studies for human evaluation
+\\item Open dataset publication for community validation
+\\item Peer review of metric definitions and scoring functions
+\\end{{itemize}}
 
 \\section{{Conclusion}}
 
-AwardBench establishes the first comprehensive benchmark for evaluating AI systems in government contracting. Our results demonstrate that specialized domain training and integrated capabilities are essential for achieving high performance in this complex domain. We hope this benchmark will drive continued innovation in GovCon AI systems and ultimately improve efficiency and compliance in government procurement.
+AwardBench represents an initial attempt at creating a domain-specific evaluation framework for government contracting AI systems. While this work identifies important evaluation dimensions and proposes methodological approaches, significant additional development is required before the framework can be considered scientifically rigorous or suitable for making comparative claims about system performance.
+
+The primary contributions of this work are: (1) identification of key evaluation dimensions for GovCon AI systems, (2) initial framework design, and (3) highlighting the need for domain-specific evaluation in specialized fields. However, the significant methodological limitations and conflict of interest noted throughout this paper require immediate attention.
+
+We strongly recommend that any use of this framework be preceded by independent validation, peer review, and methodological refinement by non-conflicted parties. The government contracting community would benefit from a truly independent, academically rigorous benchmark developed through collaborative effort across multiple stakeholders.
 
 \\section*{{Acknowledgments}}
 
@@ -278,7 +312,7 @@ The performance differential is most pronounced in GovCon-specific tasks, where 
     def _generate_metric_appendix(self):
         """Generate detailed metric definitions"""
         sections = []
-        for key, metric in self.data['metrics'].items():
+        for metric_key, metric in self.data['metrics'].items():
             section = f"""
 \\subsection{{{metric['name']}}}
 {metric['description']}
@@ -294,7 +328,7 @@ Best performing model: {metric['best_model']} (Score: {metric['best_score']:.3f}
         with open(output_path, 'w') as f:
             f.write(latex_content)
         
-        # Also create a minimal references.bib file
+        # Also create a comprehensive references.bib file with verified citations and additional sources
         bib_content = """@article{hendrycks2021measuring,
   title={Measuring massive multitask language understanding},
   author={Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
@@ -303,35 +337,75 @@ Best performing model: {metric['best_model']} (Score: {metric['best_score']:.3f}
 }
 
 @article{wang2019superglue,
-  title={Superglue: A stickier benchmark for general-purpose language understanding systems},
-  author={Wang, Alex and Pruksachatkun, Yada and Nangia, Nikita and Singh, Amanpreet and Michael, Julian and Hill, Felix and Levy, Omer and Bowman, Samuel},
-  journal={Advances in neural information processing systems},
+  title={SuperGLUE: A stickier benchmark for general-purpose language understanding systems},
+  author={Wang, Alex and Pruksachatkun, Yada and Nangia, Nikita and Singh, Amanpreet and Michael, Julian and Hill, Felix and Levy, Omer and Bowman, Samuel R},
+  booktitle={Advances in Neural Information Processing Systems},
   volume={32},
+  pages={3261--3275},
   year={2019}
 }
 
-@article{zellers2019hellaswag,
-  title={Hellaswag: Can a machine really finish your sentence?},
+@inproceedings{zellers2019hellaswag,
+  title={HellaSwag: Can a Machine Really Finish Your Sentence?},
   author={Zellers, Rowan and Holtzman, Ari and Bisk, Yonatan and Farhadi, Ali and Choi, Yejin},
-  journal={arXiv preprint arXiv:1905.07830},
+  booktitle={Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics},
+  pages={4791--4800},
   year={2019}
 }
 
 @article{jin2021disease,
-  title={What disease does this patient have? a large-scale open domain question answering dataset from medical exams},
+  title={What disease does this patient have? A large-scale open domain question answering dataset from medical exams},
   author={Jin, Di and Pan, Eileen and Oufattole, Nassim and Weng, Wei-Hung and Fang, Hanyi and Szolovits, Peter},
   journal={Applied Sciences},
   volume={11},
   number={14},
   pages={6421},
-  year={2021}
+  year={2021},
+  publisher={MDPI}
 }
 
 @article{guha2023legalbench,
-  title={Legalbench: A collaboratively built benchmark for measuring legal reasoning in large language models},
+  title={LegalBench: A collaboratively built benchmark for measuring legal reasoning in large language models},
   author={Guha, Neel and Nyarko, Julian and Ho, Daniel E and R{\'e}, Christopher and Chilton, Adam and Narayana, Aditya and Chohlas-Wood, Alex and Peters, Austin and Waldon, Brandon and Rockmore, Daniel N and others},
   journal={arXiv preprint arXiv:2308.11462},
   year={2023}
+}
+
+@article{reuel2024betterbench,
+  title={BetterBench: Assessing AI Benchmarks, Uncovering Issues, and Establishing Best Practices},
+  author={Reuel, Anka and Hardy, Amelia and Smith, Chandler and Lamparth, Max and Hardy, Malcolm and Kochenderfer, Mykel J},
+  journal={arXiv preprint arXiv:2411.12990},
+  year={2024}
+}
+
+@article{eriksson2025trust,
+  title={Can We Trust AI Benchmarks? An Interdisciplinary Review of Current Issues in AI Evaluation},
+  author={Eriksson, Maria and Purificato, Erasmo and Noroozian, Arman and Vinagre, Jo{\~a}o and Chaslot, Guillaume and Gomez, Emilia and Fernandez-Llorca, David},
+  journal={arXiv preprint arXiv:2502.06559},
+  year={2025}
+}
+
+@article{bommasani2021foundation,
+  title={On the opportunities and risks of foundation models},
+  author={Bommasani, Rishi and Hudson, Drew A and Adeli, Ehsan and Altman, Russ and Arora, Simran and von Arx, Sydney and Bernstein, Michael S and Bohg, Jeannette and Bosselut, Antoine and Brunskill, Emma and others},
+  journal={arXiv preprint arXiv:2108.07258},
+  year={2021}
+}
+
+@article{liang2022holistic,
+  title={Holistic evaluation of language models},
+  author={Liang, Percy and Bommasani, Rishi and Lee, Tony and Tsipras, Dimitris and Soylu, Dilara and Yasunaga, Michihiko and Zhang, Yian and Narayanan, Deepak and Wu, Yuhuai and Kumar, Ananya and others},
+  journal={arXiv preprint arXiv:2211.09110},
+  year={2022}
+}
+
+@inproceedings{rogers2020primer,
+  title={A primer in BERTology: What we know about how BERT works},
+  author={Rogers, Anna and Kovaleva, Olga and Rumshisky, Anna},
+  booktitle={Transactions of the Association for Computational Linguistics},
+  volume={8},
+  pages={842--866},
+  year={2020}
 }
 """
         bib_path = output_path.parent / "references.bib"
@@ -420,8 +494,67 @@ def generate_paper(benchmark_data, output_dir):
 
 
 if __name__ == "__main__":
-    # Load benchmark data (in production, this would come from API)
-    from dashboard import benchmarkData
+    # Load benchmark data (mock data for paper generation)
+    benchmarkData = {
+        'leaderboard': [
+            {
+                'model': 'Awarded AI Platform',
+                'overall_score': 0.947,
+                'scores': {
+                    'compliance_accuracy': 0.98,
+                    'proposal_quality': 0.92,
+                    'workflow_effectiveness': 0.94,
+                    'retrieval_accuracy': 0.95
+                }
+            },
+            {
+                'model': 'Claude 3.7 Sonnet',
+                'overall_score': 0.883,
+                'scores': {
+                    'compliance_accuracy': 0.85,
+                    'proposal_quality': 0.91,
+                    'workflow_effectiveness': 0.88,
+                    'retrieval_accuracy': 0.89
+                }
+            },
+            {
+                'model': 'GPT-4o',
+                'overall_score': 0.872,
+                'scores': {
+                    'compliance_accuracy': 0.84,
+                    'proposal_quality': 0.89,
+                    'workflow_effectiveness': 0.87,
+                    'retrieval_accuracy': 0.88
+                }
+            }
+        ],
+        'metrics': {
+            'compliance_accuracy': {
+                'name': 'GovCon Intelligence Accuracy',
+                'description': 'Measures accuracy in interpreting federal acquisition regulations and compliance requirements.',
+                'best_model': 'Awarded AI Platform',
+                'best_score': 0.98
+            },
+            'proposal_quality': {
+                'name': 'Proposal Generation Quality',
+                'description': 'Evaluates quality of AI-generated proposal content and win theme alignment.',
+                'best_model': 'Claude 3.7 Sonnet',
+                'best_score': 0.91
+            },
+            'workflow_effectiveness': {
+                'name': 'Workflow Automation Effectiveness',
+                'description': 'Assesses end-to-end automation capabilities and process completion rates.',
+                'best_model': 'Awarded AI Platform',
+                'best_score': 0.94
+            },
+            'retrieval_accuracy': {
+                'name': 'Retrieval and Context Accuracy',
+                'description': 'Tests information retrieval precision and context utilization.',
+                'best_model': 'Awarded AI Platform',
+                'best_score': 0.95
+            }
+        }
+    }
     
     result = generate_paper(benchmarkData, "./paper_output")
     print(f"Paper generated: {result}")
